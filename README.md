@@ -1,8 +1,8 @@
 ![BitClout Logo](https://bitclout.com/assets/img/camelcase_logo.svg)
 
-# About FlareClout
+# About BitFlare
 
-FlareClout is an easy frontend for BitClout that you can host on CloudFlare Pages.
+BitFlare is an easy frontend for BitClout that you can host on CloudFlare Pages.
 
 * Click to Deploy (TODO)
 * No need to install the Node backend
