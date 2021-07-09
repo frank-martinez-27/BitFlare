@@ -10,6 +10,23 @@ BitFlare is an easy frontend for BitClout that you can host on CloudFlare Pages.
 * No need to install the Node backend
 * No waiting around for 24 hour sync of Blockchain
 
+# Support
+
+This was created by [@tijn](https://bitclout.com/u/tijn).
+
+# Limitations
+
+Please be aware the following limitations exist:
+
+* You dont have access to the admin tab
+* Netlify just hosts the frontend
+* The backend (eg bitclout api) uses a a cluster hosted `@tijn`
+* The cluster has 2 nodes to make sure its up
+* `@tijn` is only admin
+  * only one to see admin tab
+  * only one that can whitelist, verify, pin, or promote to global
+* The global feed is relatively empty
+* The 2 backend servers do not sync offchain data - eg whitelists, verified, etc
 
 # About BitClout
 BitClout is a blockchain built from the ground up to support a fully-featured
