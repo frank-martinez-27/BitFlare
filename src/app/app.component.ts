@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { IdentityService } from "./identity.service";
 import * as _ from "lodash";
 import { environment } from "../environments/environment";
+import { ThemeService } from "./theme/theme.service";
 
 @Component({
   selector: "app-root",
@@ -15,7 +16,7 @@ import { environment } from "../environments/environment";
 export class AppComponent implements OnInit {
   constructor(
     private ref: ChangeDetectorRef,
-    private httpClient: HttpClient,
+    private themeService: ThemeService,
     private backendApi: BackendApiService,
     public globalVars: GlobalVarsService,
     private route: ActivatedRoute,
@@ -139,6 +140,9 @@ export class AppComponent implements OnInit {
           this.globalVars.youHodlMap[entry.CreatorPublicKeyBase58Check] = entry;
         }
 
+        if (res.DefaultFeeRateNanosPerKB > 0) {
+          this.globalVars.defaultFeeRateNanosPerKB = res.DefaultFeeRateNanosPerKB;
+        }
         this.globalVars.defaultFeeRateNanosPerKB = res.DefaultFeeRateNanosPerKB;
         this.globalVars.globoMods = res.GloboMods;
         this.ref.detectChanges();
@@ -249,6 +253,9 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit() {
+    // Load the theme
+    this.themeService.init();
+
     // Update the BitClout <-> Bitcoin exchange rate every five minutes. This prevents
     // a stale price from showing in a tab that's been open for a while
     setInterval(() => {

@@ -1,6 +1,4 @@
 <div class="mt-5px js-feed-post-icon-row__container fs-14px text-grey5 d-flex justify-content-between max-width-420px">
-  <!-- TODO: post threads: needs hover treatment-->
-  <!--     [routerLink]="router.url"-->
   <div
     class="cursor-pointer d-flex align-items-center"
     (click)="openModal($event)"
@@ -30,7 +28,7 @@
     >
       <i class="icon-repost feed-post-icon-row__icon"></i>
     </a>
-    <div class="dropdown-menu p-0 fs-12px" style="min-width: 6rem" *dropdownMenu aria-labelledby="recloutActionsButton">
+    <div class="dropdown-menu p-0 fs-12px border background-color-light-grey" style="min-width: 6rem" *dropdownMenu aria-labelledby="recloutActionsButton">
       <a
         *ngIf="sendingRecloutRequest; else recloutOptions"
         class="dropdown-menu-item d-block p-5px feed-post__dropdown-menu-item"
@@ -43,7 +41,7 @@
           class="dropdown-menu-item d-block link--unstyled p-5px feed-post__dropdown-menu-item"
           (click)="_undoReclout($event)"
         >
-          <i class="icon-repost fs-12px"></i>
+          <i class="icon-repost feed-post-icon-row__icon fs-12px"></i>
           Hide
         </a>
         <ng-template #recloutElseBlock>
@@ -51,7 +49,7 @@
             class="dropdown-menu-item d-block link--unstyled p-5px feed-post__dropdown-menu-item"
             (click)="_reclout($event)"
           >
-            <i class="icon-repost fs-12px"></i>
+            <i class="icon-repost feed-post-icon-row__icon fs-12px"></i>
             Reclout
           </a>
         </ng-template>
@@ -59,12 +57,12 @@
           class="dropdown-menu-item d-block link--unstyled p-5px feed-post__dropdown-menu-item"
           (click)="openModal($event, true)"
         >
-          <i class="fas fa-pencil-alt pl-5px" style="font-size: 10px"></i>
+          <i class="fas fa-pencil-alt feed-post-icon-row__icon pl-5px" style="font-size: 10px"></i>
           Quote
         </a>
       </ng-template>
     </div>
-    <span *ngIf="!hideNumbers">{{ postContent.RecloutCount }}</span>
+    <span *ngIf="!hideNumbers">{{ postContent.RecloutCount + postContent.QuoteRecloutCount}}</span>
   </div>
 
   <div
@@ -85,7 +83,7 @@
   </div>
 
   <ng-template #popTemplate>
-    <div id="diamond-popover" app-theme>
+    <div id="diamond-popover">
       <div *ngIf="!sendingDiamonds; else sendingDiamondSpinner">
         <div (click)="expandDiamondInfo($event)">
           Give a diamond.
@@ -163,11 +161,9 @@
     <span *ngIf="!hideNumbers">{{ postContent.DiamondCount }}</span>
   </div>
 
-  <div class="d-none d-lg-flex cursor-pointer align-items-center">
-    <i
-      class="icon-link js-feed-post-icon-row__copy-post-link-icon feed-post-icon-row__icon"
-      (click)="copyPostLinkToClipboard($event)"
-    ></i>
-    {{ globalVars.convertTstampToDaysOrHours(postContent.TimestampNanos) }}
-  </div>
+    <div class="d-none d-lg-flex cursor-pointer align-items-center">
+        <i class="icon-link js-feed-post-icon-row__copy-post-link-icon feed-post-icon-row__icon" (click)="copyPostLinkToClipboard($event)"></i>
+        <span class="d-inline-block ml-1 cursor-pointer lh-12px fc-muted align-middle" matTooltipClass="global__mat-tooltip global__mat-tooltip-font-size" mat-raised-button #tooltip="matTooltip" [matTooltip]="globalVars.convertTstampToDateTime(postContent.TimestampNanos)"
+            (auxclick)="onTimestampClickHandler($event)">{{ globalVars.convertTstampToDaysOrHours(postContent.TimestampNanos) }}</span>
+    </div>
 </div>

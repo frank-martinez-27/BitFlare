@@ -23,7 +23,7 @@
 
       <div class="pt-10px"></div>
 
-      <div style="margin-left: 40px" class="mr-15px">
+      <div style="margin-left: 25px" class="position-relative">
         <change-account-selector></change-account-selector>
       </div>
 
@@ -45,7 +45,21 @@
 
       <left-bar-button
         [link]="'/' + globalVars.RouteNames.BUY_BITCLOUT"
-        [buttonLabel]="'Buy BitClout'"
+        [buttonLabel]="'Buy $CLOUT'"
+      ></left-bar-button>
+
+      <div class="p-15px" *ngIf="globalVars.loggedInUser?.ProfileEntryResponse"></div>
+      <left-bar-button
+        [link]="AppRoutingModule.profilePath(globalVars.loggedInUser.ProfileEntryResponse?.Username)"
+        [queryParams]="{ 'nftTab': 'my_bids', 'tab': 'nfts' }"
+        [buttonLabel]="'My NFT Bids'"
+        *ngIf="globalVars.loggedInUser?.ProfileEntryResponse"
+      ></left-bar-button>
+      <left-bar-button
+        [link]="AppRoutingModule.profilePath(globalVars.loggedInUser.ProfileEntryResponse?.Username)"
+        [queryParams]="{ 'nftTab': 'my_gallery', 'tab': 'nfts' }"
+        [buttonLabel]="'My NFT Gallery'"
+        *ngIf="globalVars.loggedInUser?.ProfileEntryResponse"
       ></left-bar-button>
 
       <div class="p-15px"></div>
@@ -57,7 +71,7 @@
 
       <left-bar-button
         [link]="'/' + globalVars.RouteNames.SEND_BITCLOUT"
-        [buttonLabel]="'Send BitClout'"
+        [buttonLabel]="'Send $CLOUT'"
       ></left-bar-button>
 
       <left-bar-button [link]="'/' + globalVars.RouteNames.WALLET" [buttonLabel]="'Wallet'"></left-bar-button>
@@ -67,6 +81,7 @@
       <div *ngIf="globalVars.loggedInUser && globalVars.loggedInUser.ProfileEntryResponse?.Username; else elseBlock">
         <left-bar-button
           [link]="AppRoutingModule.profilePath(globalVars.loggedInUser.ProfileEntryResponse.Username)"
+          [queryParams]="{ 'tab':'posts' }"
           [buttonLabel]="'Profile'"
         ></left-bar-button>
       </div>
@@ -128,7 +143,7 @@
 
       <div class="pt-10px"></div>
 
-      <div style="margin-left: 40px" class="mr-15px">
+      <div style="margin-left: 25px" class="mr-15px">
         <change-account-selector></change-account-selector>
       </div>
 
@@ -144,7 +159,7 @@
 
       <left-bar-button
         [link]="'/' + globalVars.RouteNames.BUY_BITCLOUT"
-        [buttonLabel]="'Buy BitClout'"
+        [buttonLabel]="'Buy $CLOUT'"
       ></left-bar-button>
     </div>
   </div>

@@ -16,6 +16,8 @@ import { BithuntService, CommunityProject } from "../lib/services/bithunt/bithun
 import { LeaderboardResponse, PulseService } from "../lib/services/pulse/pulse-service";
 import { RightBarCreatorsLeaderboardComponent } from "./right-bar-creators/right-bar-creators-leaderboard/right-bar-creators-leaderboard.component";
 import { HttpClient } from "@angular/common/http";
+import { FeedComponent } from "./feed/feed.component";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 
 export enum ConfettiSvg {
   DIAMOND = "diamond",
@@ -291,6 +293,7 @@ export class GlobalVarsService {
       for (const entry of this.loggedInUser?.UsersYouHODL || []) {
         this.youHodlMap[entry.CreatorPublicKeyBase58Check] = entry;
       }
+      this.followFeedPosts = [];
     }
 
     this._notifyLoggedInUserObservers(user, isSameUserAsBefore);
@@ -396,6 +399,10 @@ export class GlobalVarsService {
     return nanos / this.nanosPerUSDExchangeRate;
   }
 
+  usdToNanosNumber(usdAmount: number): number {
+    return usdAmount * this.nanosPerUSDExchangeRate;
+  }
+
   nanosToUSD(nanos: number, decimal?: number): string {
     if (decimal == null) {
       decimal = 4;
@@ -492,6 +499,28 @@ export class GlobalVarsService {
       date.getFullYear() != currentDate.getFullYear()
     ) {
       return date.toLocaleString("default", { month: "short", day: "numeric" });
+    }
+
+    return date.toLocaleString("default", { hour: "numeric", minute: "numeric" });
+  }
+
+  convertTstampToDateTime(tstampNanos: number) {
+    const date = new Date(tstampNanos / 1e6);
+    const currentDate = new Date();
+    if (
+      date.getDate() != currentDate.getDate() ||
+      date.getMonth() != currentDate.getMonth() ||
+      date.getFullYear() != currentDate.getFullYear()
+    ) {
+      return date.toLocaleString("default", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      });
     }
 
     return date.toLocaleString("default", { hour: "numeric", minute: "numeric" });
@@ -730,7 +759,7 @@ export class GlobalVarsService {
     this.satoshisPerBitCloutExchangeRate = 0;
     this.nanosPerUSDExchangeRate = GlobalVarsService.DEFAULT_NANOS_PER_USD_EXCHANGE_RATE;
     this.usdPerBitcoinExchangeRate = 10000;
-    this.defaultFeeRateNanosPerKB = 0.0;
+    this.defaultFeeRateNanosPerKB = 1000.0;
 
     this.localNode = this.backendApi.GetStorage(this.backendApi.LastLocalNodeKey);
 
@@ -859,5 +888,23 @@ export class GlobalVarsService {
         console.error(error);
       }
     );
+  }
+
+  exploreShowcase(bsModalRef: BsModalRef, modalService: BsModalService): void {
+    if (modalService) {
+      modalService.setDismissReason("explore");
+    }
+    if (bsModalRef) {
+      bsModalRef.hide();
+    }
+    this.router.navigate(["/" + this.RouteNames.BROWSE], {
+      queryParams: { feedTab: FeedComponent.SHOWCASE_TAB },
+    });
+  }
+
+  resentVerifyEmail = false;
+  resendVerifyEmail() {
+    this.backendApi.ResendVerifyEmail(this.localNode, this.loggedInUser.PublicKeyBase58Check).subscribe();
+    this.resentVerifyEmail = true;
   }
 }

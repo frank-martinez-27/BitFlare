@@ -276,6 +276,18 @@ export class FeedPostIconRowComponent {
     this.globalVars._copyText(this._getPostUrl());
   }
 
+  onTimestampClickHandler(event) {
+    this.globalVars.logEvent("post : share");
+
+    // Prevent the post from navigating.
+    event.stopPropagation();
+
+    //condition to check whether middle mouse btn is clicked
+    if (event.which == 2) {
+      window.open(this._getPostUrl(), "_blank");
+    }
+  }
+
   // this is a bit of a hacky solution, not sure what the right way to do this is
   //
   // this solution is from https://stackoverflow.com/questions/41447305/how-to-get-an-absolute-url-by-a-route-name-in-angular-2
@@ -283,7 +295,8 @@ export class FeedPostIconRowComponent {
   // but the angular docs say not to use PlatformLocation https://angular.io/api/common/PlatformLocation
   // maybe we should just use window.location.href instead...
   _getPostUrl() {
-    const pathArray = ["/" + this.globalVars.RouteNames.POSTS, this.postContent.PostHashHex];
+    const route = this.postContent.IsNFT ? this.globalVars.RouteNames.NFT : this.globalVars.RouteNames.POSTS;
+    const pathArray = ["/" + route, this.postContent.PostHashHex];
 
     // need to preserve the curent query params for our dev env to work
     const currentQueryParams = this.activatedRoute.snapshot.queryParams;
