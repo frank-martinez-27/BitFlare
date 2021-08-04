@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "eeae3339-2906-4fb3-bddc-500292a7de00",
+    "team": "tijno-team",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "bold-pine-6953"
+  },
+  "build": {
+    "baseDir": "",
+    "publicDir": "dist",
+    "rootDir": ""
+  }
+}

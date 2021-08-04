@@ -10,6 +10,7 @@
     "lint": "ng lint --fix",
     "e2e": "ng e2e",
     "build_prod": "ng build --prod --base-href / --deploy-url /",
+    "build_fleek": "ng build --prod --base-href ./ --deploy-url ./ && fleek site:deploy",
     "ngcc": "ngcc --properties es2015"
   },
   "browserslist": [
